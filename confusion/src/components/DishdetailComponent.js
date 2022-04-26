@@ -1,21 +1,28 @@
-import React, { Component } from "react";
-import { Card, CardImg, CardImgOverlay, CardText, CardBody, CardTitle } from "reactstrap";
+import React from "react";
+import { Card, CardImg, CardImgOverlay, CardText, CardBody, CardTitle, Breadcrumb, BreadcrumbItem } from "reactstrap";
+import { Link } from 'react-router-dom';
 
-class DishDetail extends Component{
-    constructor(props) {
-        super(props);
+    // constructor(props) {
+    //     super(props);
 
-        console.log(props);
+    //     console.log(props);
+
         
-        // stores iproperties of this component
-        this.state = {
-            selectedDishDetail: this.props.dsdetail
-        };
+    //     // stores iproperties of this component
+    //     this.state = {
+    //         selectedDishDetail: this.props.dsdetail
+    //     };
 
 
-    }
-
-    renderDish(dish) {
+    // }
+    // componentDidMount(){
+    //     console.log('DishDetail component componentDidMounbt is invoked');
+        
+    // }
+    // componentDidUpdate(){
+    //     console.log('DishDetail component render is invoked');
+    // }
+    function RenderDish({dish}) {
 
         if (dish != null) {
             return (
@@ -37,7 +44,7 @@ class DishDetail extends Component{
         }
     }
 
-    renderComments(comments){
+    function RenderComments({comments}){
         if (comments == null) {
             return (<div></div>)
         }
@@ -68,21 +75,33 @@ class DishDetail extends Component{
     }
 
 
-    render(){
-        const dish = this.props.dish
+    const DishDetail = (props)=> {
+        const dish = props.dish;
 
         console.log(dish);
         
         if (dish == null) {
             return (<div></div>);
         }
-
-        const dishItem = this.renderDish(dish);
-        const dishComment = this.renderComments(dish.comments);
+        
+        const dishItem = <RenderDish dish={props.dish} />
+        const dishComment = <RenderComments comments={(props.comments)} />
 
         return (
             <div className="container">
+                                <div className="row">
+                    <Breadcrumb>
+                        <BreadcrumbItem><Link to="/menu">Menu</Link></BreadcrumbItem>
+                        
+                        <BreadcrumbItem active>{props.dish.name}</BreadcrumbItem>
+                    </Breadcrumb>
+                    <div className="col-12">
+                        <h3>{props.dish.name}</h3>
+                        <hr />
+                    </div>                
+                </div>
             <div className='row'>
+                
                 {dishItem}
                 {dishComment}
             </div>
@@ -90,6 +109,6 @@ class DishDetail extends Component{
         )
     }
 
-}
+
 
 export default DishDetail;
